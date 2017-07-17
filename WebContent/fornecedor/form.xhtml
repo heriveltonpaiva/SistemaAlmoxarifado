@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="corpo">
+            <h:form id="form">
+                <h2>Cadastro de Fornecedor</h2>
+
+                <h:panelGrid columns="2" style="margin-bottom:20px;">
+                    <p:button value="Cadastrar" icon="ui-icon-plusthick" disabled="true"/>
+                    <p:button value="Listar" icon="ui-icon-calculator" outcome="/fornecedor/list.xhtml" />
+                </h:panelGrid>    
+
+                <p:panel header="Informações do Fornecedor" style="margin-bottom:20px">  
+                    <h:panelGrid columns="4">
+                        <p:outputLabel value="Codigo*"/>
+                        <h:inputText value="#{fornecedorController.obj.codigo}" size="10" maxlength="5"/>   
+
+                        <p:outputLabel value="Nome*"/>
+                        <h:inputText value="#{fornecedorController.obj.nome}" size="51"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="4">
+                        <p:outputLabel value="Nome Fantasia"/>
+                        <h:inputText value="#{fornecedorController.obj.nomeFantasia}" size="40"/>
+
+                        <p:outputLabel value="CNPJ"/>
+                        <h:inputText value="#{fornecedorController.obj.cnpj}" size="15" maxlength="20"/>
+                    </h:panelGrid>
+                </p:panel>
+
+
+                <p:panel header="Informações de Endereço" style="margin-bottom:20px">  
+                    <h:panelGrid columns="4">
+                        <p:outputLabel value="Endereco*"/>
+                        <h:inputText value="#{fornecedorController.obj.endereco.descricao}" size="52"/>
+
+                        <p:outputLabel value="Numero"/>
+                        <h:inputText value="#{fornecedorController.obj.endereco.numero}" size="5" maxlength="5"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="6">
+                        <p:outputLabel value="Complemento"/>
+                        <h:inputText value="#{fornecedorController.obj.endereco.complemento}" size="20"/>
+
+                        <p:outputLabel value="CEP"/>
+                        <h:inputText value="#{fornecedorController.obj.endereco.cep}" size="10" maxlength="9"/>
+
+                        <p:outputLabel value="Bairro*"/>
+                        <h:inputText value="#{fornecedorController.obj.endereco.bairro.descricao}" size="20"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="4">    
+                        <p:outputLabel value="Cidade*"/>
+                        <h:inputText value="#{fornecedorController.obj.endereco.bairro.cidade.descricao}" size="30"/>
+
+                        <p:outputLabel value="Estado*"/>
+                        <h:selectOneMenu id="lista"  value="#{fornecedorController.obj.endereco.bairro.cidade.estado.descricao}" style="width:200px;">
+                            <f:selectItem itemLabel="-- Selecione --" itemValue="" />
+                            <f:selectItems value="#{funcionarioController.listaEstados}" 
+                                           var ="x" itemLabel="#{x.descricao}" itemValue="#{x.descricao}" />
+                        </h:selectOneMenu>
+
+                    </h:panelGrid>
+                </p:panel>
+                <p:panel  header="Informações de Contato" style="margin-bottom:20px"> 
+                    <h:panelGrid columns="4">
+                        <p:outputLabel value="Telefone"/>
+                        <h:inputText value="#{fornecedorController.obj.contato.telefone}" size="20" maxlength="9"/>
+
+                        <p:outputLabel value="Celular"/>
+                        <h:inputText value="#{fornecedorController.obj.contato.celular}" size="20" maxlength="9"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Email*"/>
+                        <h:inputText value="#{fornecedorController.obj.contato.email}" size="54"/>
+
+                    </h:panelGrid>
+                </p:panel>
+                <p:commandButton action="#{fornecedorController.cadastrar}" 
+                                 update="form" 
+                                 rendered="#{fornecedorController.obj.id == 0}"
+                                 icon="ui-icon-disk"  value="Salvar Informações" />
+
+                <p:commandButton action="#{fornecedorController.alterar}" update="form" icon="ui-icon-disk" rendered="#{fornecedorController.obj.id>0}" value="Atualizar Informações"/>
+
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />     
+            </h:form>
+        </ui:define>
+     </ui:composition>
+</html>
+

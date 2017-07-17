@@ -1,0 +1,79 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="corpo">
+            <h:form id="formtable">
+                <h2>Histórico de Requisições</h2>
+                <h:panelGrid columns="4">
+
+                    <p:dataTable id="tabela" var="req" value="#{requisicaoController.listagem}" >
+                        <p:column headerText="Cod." width="40">
+                            <h:outputText value="#{req.codigo}" />
+                        </p:column>
+
+                        <p:column headerText="Funcionário" width="120" >
+                            <h:outputText value="#{req.funcionario.nome}" />
+                        </p:column>
+
+                        <p:column headerText="Data" width="70">
+                            <h:outputText value="#{req.data}" />
+                        </p:column>
+
+                        <p:column  width="60">
+                            <p:commandButton value="Lista Produtos" icon="ui-icon-search" oncomplete="PF('dlg2').show();" update=":formtable:dlg" style="width:150px; font-size:14px;">
+                                <f:setPropertyActionListener target="#{requisicaoController.listaItemRequisicao}" value="#{req.itens}"  />
+                            </p:commandButton>
+
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:panelGrid>
+
+                <p:dialog header="Lista de Itens" id="dlg" widgetVar="dlg2" height="500" width="700" resizable="false" closable="false">
+
+                    <p:panel id="basic" header="Itens" style="margin-bottom:20px">
+                        <h:panelGrid columns="2" cellpadding="5">
+
+                            <p:dataTable id="tabelaReq" var="reqList" value="#{requisicaoController.listaItemRequisicao}" >
+
+                                <p:column headerText="Codigo" width="40">
+                                    <h:outputText value="#{reqList.produto.codigo}" />
+                                </p:column>
+                                <p:column headerText="Produto " width="40">
+                                    <h:outputText value="#{reqList.produto.descricao}" />
+                                </p:column>
+
+                                <p:column headerText="Quant. Requisitada" width="40">
+                                    <h:outputText value="#{reqList.quantidade}" />
+                                </p:column>
+
+                                <p:column headerText="Estoque Restante" width="40">
+                                    <h:outputText value="#{reqList.produto.quantidade}" />
+                                </p:column>  
+
+                                <p:column headerText="R$ Unidade " width="40">
+                                    <h:outputText value="#{reqList.produto.valor}" />
+                                </p:column>  
+
+                                <p:column headerText="R$ Total" width="40">
+                                    <h:outputText value="#{reqList.valorTotal}" />
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </h:panelGrid>
+                        <p:commandButton value="Fechar" oncomplete="PF('dlg2').hide();" action="#{requisicaoController.limparListaDialog()}" />
+                    </p:panel>
+
+                </p:dialog>
+
+            </h:form>
+
+        </ui:define>
+     </ui:composition>
+</html>

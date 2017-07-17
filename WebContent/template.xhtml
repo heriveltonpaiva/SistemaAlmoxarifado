@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+ 
+  	<h:head>
+          <title>Sistema de Almoxarifado</title>
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
+<style>
+.navbar-custom {
+    background-color:#229922;
+    color:#ffffff;
+    border-radius:0;
+}
+
+.navbar-custom .navbar-nav > li > a {
+    color:#fff;
+}
+.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+    color: #ffffff;
+    background-color:transparent;
+}
+.navbar-custom .navbar-brand {
+    color:#eeeeee;
+}
+</style>          
+<script type="text/javascript">
+PrimeFaces.locales['pt_BR'] = {
+	    closeText : 'Fechar',
+	    prevText : 'Anterior',
+	    nextText : 'Próximo',
+	    currentText : 'Começo',
+	    monthNames : [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho','Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ],
+	    monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago','Set', 'Out', 'Nov', 'Des' ],
+	    dayNames : [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta','Sábado' ],
+	    dayNamesShort : [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
+	    dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+	    weekHeader : 'Semana',
+	    firstDay : 1,
+	    isRTL : false,
+	    showMonthAfterYear : false,
+	    yearSuffix : '',
+	    timeOnlyTitle : 'Horário',
+	    timeText : 'Tempo',
+	    hourText : 'Hora',
+	    minuteText : 'Minuto',
+	    secondText : 'Segundo',
+	    ampm : false,
+	    month : 'Mês',
+	    week : 'Semana',
+	    day : 'Dia',
+	    allDayText : 'Todo Dia'
+	};
+
+</script>
+          
+    </h:head>
+   
+    <h:body>
+<b:navBar  brand="Sistema de Almoxarifado" inverse="false" >   
+    <b:navbarLinks>
+         <b:navLink value="Inicio" outcome="/index.xhtml" iconAwesome="home" />            
+            <b:navLink value="Cadastrar Requisição" outcome="/requisicao/form.xhtml" />
+            <b:navLink value="Minhas Requisições" outcome="/requisicao/list.xhtml" />
+            <b:dropMenu value="Produtos">
+	            <b:navLink value="Cadastrar" outcome="/produto/form.xhtml" iconAwesome="users" />
+	            <b:navLink value="Consultar" outcome="/produto/list.xhtml" iconAwesome="users" />
+        	</b:dropMenu>
+        	<b:dropMenu value="Funcionários">
+	            <b:navLink value="Cadastrar" outcome="/funcionario/form.xhtml"  />
+	            <b:navLink value="Consultar" outcome="/funcionario/list.xhtml"  />
+        	</b:dropMenu>
+        	<b:dropMenu value="Fornecedores">
+	            <b:navLink value="Cadastrar" outcome="/fornecedor/form.xhtml"  />
+	            <b:navLink value="Consultar" outcome="/fornecedor/list.xhtml"  />
+        	</b:dropMenu>
+<!--         	<b:navLink value="Bem vindo, #{springUtils.currentUser}" active="false" ></b:navLink> -->
+        	<b:navLink value="Sair" href="j_spring_security_logout" iconAwesome="fa fa-sign-out"></b:navLink>
+    </b:navbarLinks>
+</b:navBar>
+	<b:container>
+	
+		<ui:insert name="corpo">Corpo original do template</ui:insert>
+		<b:well>
+		<center> Copyright© 2016. Desenvolvido por Herivelton Paiva</center>
+		</b:well>
+	</b:container>
+
+</h:body>
+</html>

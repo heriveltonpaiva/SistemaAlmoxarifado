@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="corpo">
+            <h:form id="form">
+                <h2>Requisição de Produtos</h2>
+				
+				<p:panel header="Informações do Produto" style="margin-bottom:20px">  
+                
+                <p:outputLabel  value="Requisitante " />
+                        <h:selectOneMenu id="lista"  value="#{requisicaoController.obj.funcionario.nome}" style="width:200px;" >
+                            <f:selectItem itemLabel="-- Selecione --" itemValue="" />
+                            <f:selectItems value="#{funcionarioController.listagem}" 
+                                           var ="x" itemLabel="#{x.nome}" itemValue="#{x.nome}" />
+                        </h:selectOneMenu>
+                   
+                    <h:panelGrid columns="4" >
+
+                        <p:outputLabel value="Codigo*"/>
+                        <h:inputText id="codigo" value="#{requisicaoController.codigoProduto}" autocomplete="false" size="10" maxlength="5">
+                            <p:ajax event="keyup" update="desc, und, estoque, valor" listener="#{requisicaoController.buscarProduto()}" />
+                        </h:inputText>
+                        <p:outputLabel value="Descrição*"/>
+                        <h:inputText id="desc" value="#{requisicaoController.produto.descricao}" size="45" disabled="true"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="6">
+                        <p:outputLabel value="Unidade"/>
+                        <h:inputText id="und" value="#{requisicaoController.produto.unidade}" size="11" disabled="true"/>
+
+                        <p:outputLabel value="Quant. Em Estoque"/>
+                        <h:inputText id="estoque" value="#{(requisicaoController.produto.quantidade) - requisicaoController.quantidadeTemp}" size="5" maxlength="5" disabled="true"/>
+
+                        <p:outputLabel value="Estoque"/>
+                        <h:inputText id="estoqueReq" value="#{requisicaoController.quantidade}" autocomplete="false" size="5" maxlength="5"/>
+                        <p:ajax event="keyup" update="total" listener="#{requisicaoController.verificarEstoqueDisponivel()}" />
+                    </h:panelGrid>   
+                    <h:panelGrid columns="5">
+                        <p:outputLabel value="R$ Unidade"/>
+                        <h:inputText id="valor"  value="#{requisicaoController.produto.valor}" size="5" maxlength="5" disabled="true"/>
+
+                        <p:outputLabel value="R$ Total"/>
+                        <h:inputText id="total" value="#{requisicaoController.quantidade*requisicaoController.produto.valor}" size="5" maxlength="8" disabled="true"/>
+                        <h:commandButton actionListener="#{requisicaoController.addlistaItemRequisicao()}" value="Incluir Produto"/>
+                        <p:ajax update="listaItem, codigo, estoqueReq" event="click" />
+                    </h:panelGrid>
+                    <br></br>
+                    <p:dataTable id="listaItem"  var="item" value="#{requisicaoController.listaItemRequisicao}">
+
+                        <p:column headerText="Cod">
+                            <h:outputText value="#{item.produto.codigo}" />
+                        </p:column>
+                        <p:column headerText="Descrição">
+                            <h:outputText value="#{item.produto.descricao}" />
+                        </p:column>
+                        <p:column headerText="Unid.">
+                            <h:outputText value="#{item.produto.unidade}" />
+                        </p:column>
+                        <p:column headerText="Quant.">
+                            <h:outputText value="#{item.quantidade}" />
+                        </p:column>
+
+                        <p:column headerText="R$ Unid.">
+                            <h:outputText value="#{item.produto.valor}" />
+                        </p:column>
+
+                        <p:column headerText="R$ Total">
+                            <h:outputText value="#{item.valorTotal}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <br></br> 
+                    <p:outputLabel id="totalGeral" value="TOTAL R$:#{requisicaoController.valorTotal}" style="font-size:20px;" /> <br></br> 
+                    <br></br> 
+                    <p:commandButton update="listaItem , totalGeral, finalizar, form" 
+                                     icon="ui-icon-close" value="Excluir Item" 
+                                     actionListener="#{requisicaoController.removerItemRequisicaoLista()}" rendered="#{requisicaoController.listaItemRequisicao.size() > 0}"/>   
+                </p:panel>
+                <p:commandButton id="finalizar" rendered="#{requisicaoController.listaItemRequisicao.size() > 0}"   update="listaItem, totalGeral, form, finalizar" value="Finalizar Requisição"  actionListener="#{requisicaoController.finalizarRequisicao()}"/>         
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+            </h:form>
+        </ui:define>
+     </ui:composition>
+</html>

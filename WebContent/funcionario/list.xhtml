@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="corpo">
+            <h:form id="formtable">
+                <h2>Lista de Funcionários</h2>
+
+                <h:panelGrid columns="2" style="margin-bottom:20px;">
+                    <p:button  value="Cadastrar" icon="ui-icon-plusthick"  outcome="/funcionario/form.xhtml">
+                    </p:button>
+
+                    <p:button value="Listar" icon="ui-icon-calculator" disabled="true">
+                    </p:button>
+                </h:panelGrid>    
+                <h:panelGrid columns="4">
+
+                    <p:dataTable id="tabela" var="x" value="#{funcionarioController.listagem}">
+
+                        <p:column headerText="Nome" width="100">
+                            <h:outputText value="#{x.nome}" />
+                        </p:column>
+
+                        <p:column headerText="Cargo" width="70">
+                            <h:outputText value="#{x.cargo}" />
+                        </p:column>
+
+                        <p:column headerText="Endereço" width="100">
+                            <h:outputText value="#{x.endereco.descricao}" />
+                        </p:column>
+
+                        <p:column headerText="Cidade" width="60">
+                            <h:outputText value="#{x.endereco.bairro.cidade.descricao}" />
+                        </p:column>
+                        <p:column headerText="UF" width="20">
+                            <h:outputText value="#{x.endereco.bairro.cidade.estado.descricao}" />
+                        </p:column>
+
+                        <p:column  width="70">
+                            <p:commandButton value="Detalhar" icon="ui-icon-search" oncomplete="PF('dlg2').show();" update=":formtable:dlg" style="width:110px; font-size:14px;">
+                                <f:setPropertyActionListener target="#{funcionarioController.obj}" value="#{x}"  /> 
+                            </p:commandButton>
+
+                            <p:commandButton value="Editar" action="#{funcionarioController.carregarObjetoEditar}" icon="ui-icon-pencil" style="width:110px; font-size:14px;">
+                            	<f:setPropertyActionListener target="#{funcionarioController.obj}" value="#{x}"  /> 
+                            </p:commandButton>
+
+                            <p:commandButton value="Excluir" action="#{funcionarioController.remover(x)}" icon="ui-icon-close" update="tabela" style="width:110px; font-size:14px;"/>
+
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:panelGrid>
+
+                <p:dialog header="Detalhes do Funcionário" id="dlg" widgetVar="dlg2" height="500" width="500" resizable="false" closable="false">
+
+                    <p:panel id="basic" header="Funcionario" style="margin-bottom:20px">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputLabel value="Id:" />  
+                            <h:outputText value="#{funcionarioController.obj.id}" />
+                            <h:outputLabel value="Nome:" />  
+                            <h:outputText value="#{funcionarioController.obj.nome}" />
+                            <h:outputLabel value="Cargo:" />  
+                            <h:outputText value="#{funcionarioController.obj.cargo}" />
+                            <h:outputLabel value="Endereço:" />  
+                            <h:outputText value="#{funcionarioController.obj.endereco.descricao}" />
+                            <h:outputLabel value="Numero:" />  
+                            <h:outputText value="#{funcionarioController.obj.endereco.numero}" />
+                            <h:outputLabel value="CEP:" />  
+                            <h:outputText value="#{funcionarioController.obj.endereco.cep}" />
+                            <h:outputLabel value="Complemento:" />  
+                            <h:outputText value="#{funcionarioController.obj.endereco.complemento}" />
+                            <h:outputLabel value="Bairro:" />  
+                            <h:outputText value="#{funcionarioController.obj.endereco.bairro.descricao}" />
+                            <h:outputLabel value="Cidade:" />  
+                            <h:outputText value="#{funcionarioController.obj.endereco.bairro.cidade.descricao}" />
+                            <h:outputLabel value="Estado:" />  
+                            <h:outputText value="#{funcionarioController.obj.endereco.bairro.cidade.estado.descricao}" />
+                            <h:outputLabel value="Telefone:" />  
+                            <h:outputText value="#{funcionarioController.obj.contato.telefone}" />
+                            <h:outputLabel value="Celular:" />  
+                            <h:outputText value="#{funcionarioController.obj.contato.celular}" />
+                            <h:outputLabel value="Email:" />  
+                            <h:outputText value="#{funcionarioController.obj.contato.email}" />
+
+                        </h:panelGrid>
+                        <p:commandButton value="Fechar" oncomplete="PF('dlg2').hide();" action="#{funcionarioController.limparObjetoDialog()}"/>
+                    </p:panel>
+                </p:dialog>
+            </h:form>
+        </ui:define>
+     </ui:composition>
+</html>

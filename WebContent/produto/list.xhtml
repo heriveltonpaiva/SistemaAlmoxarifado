@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="corpo">
+            <h:form id="formtable">
+                <h2>Lista de Produtos</h2>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <h:panelGrid columns="2" style="margin-bottom:20px;">
+                    <p:button  value="Cadastrar" icon="ui-icon-plusthick" outcome="/produto/form.xhtml" />
+                    <p:button value="Listar" icon="ui-icon-calculator" disabled="true"/>
+                </h:panelGrid>    
+                <h:panelGrid columns="4">
+
+                    <p:dataTable id="tabela" var="prod" value="#{produtoController.listagem}" >
+                        <p:column headerText="Cod." width="40">
+                            <h:outputText value="#{prod.codigo}" />
+                        </p:column>
+
+                        <p:column headerText="Descrição">
+                            <h:outputText value="#{prod.descricao}" />
+                        </p:column>
+                        <p:column headerText="Estoque" width="60">
+                            <h:outputText value="#{prod.quantidade}" />
+                        </p:column>
+                        <p:column headerText="Preço" width="50">
+                            <h:outputText value="#{prod.valor}" />
+                        </p:column>
+
+                        <p:column headerText="Fornecedor">
+                            <h:outputText value="#{prod.fornecedor.nome}" />
+                        </p:column>
+
+                        <p:column  width="110">
+                            <p:commandButton value="Detalhar" icon="ui-icon-search" oncomplete="PF('dlg2').show();" update=":formtable:dlg" style="width:110px; font-size:14px;">
+                                <f:setPropertyActionListener target="#{produtoController.obj}" value="#{prod}"  /> 
+                            </p:commandButton>
+
+                            <p:commandButton value="Editar" action="#{produtoController.carregarObjetoEditar}" icon="ui-icon-pencil" style="width:110px; font-size:14px;" />
+
+                            <p:commandButton value="Excluir" action="#{produtoController.remover(prod)}" icon="ui-icon-close" update="tabela" style="width:110px; font-size:14px;"/>
+
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:panelGrid>
+
+                <p:dialog header="Detalhes do Produto" id="dlg" widgetVar="dlg2" height="400" width="350" resizable="false" closable="false">
+
+                    <p:panel id="basic" header="Produto" style="margin-bottom:20px">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputLabel value="Descrição:" />  
+                            <h:outputText value="#{produtoController.obj.descricao}" />
+                            <h:outputLabel value="Código:" />
+                            <h:outputText value="#{produtoController.obj.codigo}" />
+                            <h:outputLabel value="Quantidade:" />
+                            <h:outputText value="#{produtoController.obj.quantidade}" />
+                            <h:outputLabel value="Estoque Minimo:" />
+                            <h:outputText value="#{produtoController.obj.estoqueMinimo}" />
+                            <h:outputLabel value="Estoque Maximo:" />
+                            <h:outputText value="#{produtoController.obj.estoqueMaximo}" />
+                            <h:outputLabel value="Preço R$:" />
+                            <h:outputText value="#{produtoController.obj.valor}" />
+                            <h:outputLabel value="Localização:" />
+                            <h:outputText value="#{produtoController.obj.localizacao}" />
+                            <h:outputLabel value="Fornecedor:" />
+                            <h:outputText value="#{produtoController.obj.fornecedor.nome}" />
+                            <h:outputLabel value="Observação:" />
+                            <h:outputText value="#{produtoController.obj.observacoes}" />
+                        </h:panelGrid>
+                        <p:commandButton value="Fechar" oncomplete="PF('dlg2').hide();" action="#{produtoController.limparObjetoDialog()}"/>
+                    </p:panel>
+
+                </p:dialog>
+
+
+            </h:form>
+
+
+        </ui:define>
+     </ui:composition>
+</html>

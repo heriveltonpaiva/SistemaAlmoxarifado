@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="corpo">
+            <h:form id="form">
+                <h2>Cadastro de Funcionário</h2>
+
+                <h:panelGrid columns="2" style="margin-bottom:20px;">
+                    <p:button  value="Cadastrar" icon="ui-icon-plusthick" disabled="true">
+                    </p:button>
+
+                    <p:button value="Listar" icon="ui-icon-calculator" outcome="/funcionario/list.xhtml" >
+                    </p:button>
+                </h:panelGrid>    
+                <p:panel header="Informações de Endereço" style="margin-bottom:20px">
+                    <h:panelGrid columns="4">
+
+                        <p:outputLabel value="Nome*"/>
+                        <h:inputText value="#{funcionarioController.obj.nome}" size="40"/>
+
+                        <p:outputLabel value="Cargo*"/>
+                        <h:inputText value="#{funcionarioController.obj.cargo}" size="20"/>
+
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel header="Informações de Endereço" style="margin-bottom:20px">  
+                    <h:panelGrid columns="4">
+                        <p:outputLabel value="Endereco*"/>
+                        <h:inputText value="#{funcionarioController.obj.endereco.descricao}" size="52"/>
+
+                        <p:outputLabel value="Numero"/>
+                        <h:inputText value="#{funcionarioController.obj.endereco.numero}" size="5"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="6">
+                        <p:outputLabel value="Complemento"/>
+                        <h:inputText value="#{funcionarioController.obj.endereco.complemento}" size="20"/>
+
+                        <p:outputLabel value="CEP"/>
+                        <h:inputText value="#{funcionarioController.obj.endereco.cep}" size="10"/>
+
+                        <p:outputLabel value="Bairro*"/>
+                        <h:inputText value="#{funcionarioController.obj.endereco.bairro.descricao}" size="20"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="4">    
+                        <p:outputLabel value="Cidade*"/>
+                        <h:inputText value="#{funcionarioController.obj.endereco.bairro.cidade.descricao}" size="30"/>
+
+                        <p:outputLabel value="Estado*"/>
+                        <h:selectOneMenu id="lista"  value="#{funcionarioController.obj.endereco.bairro.cidade.estado.descricao}" converter="generic" style="width:200px;">
+                            <f:selectItem itemLabel="-- Selecione --" itemValue="" />
+                            <f:selectItems value="#{funcionarioController.listaEstados}" 
+                                           var ="#{x}" itemLabel="#{descricao}" itemValue="#{descricao}" />
+                        </h:selectOneMenu>
+
+                    </h:panelGrid>
+                </p:panel>
+                <p:panel  header="Informações de Contato" style="margin-bottom:20px"> 
+                    <h:panelGrid columns="4">
+                        <p:outputLabel value="Telefone"/>
+                        <h:inputText value="#{funcionarioController.obj.contato.telefone}" size="20" maxlength="9"/>
+
+                        <p:outputLabel value="Celular"/>
+                        <h:inputText value="#{funcionarioController.obj.contato.celular}" size="20" maxlength="9"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Email*"/>
+                        <h:inputText value="#{funcionarioController.obj.contato.email}" size="54"/>
+
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:commandButton actionListener="#{funcionarioController.cadastrar}" 
+                                 update="form" 
+                                 rendered="#{funcionarioController.obj.id==0}"
+                                 icon="ui-icon-disk"  value="Cadastrar" />
+
+                <p:commandButton action="#{funcionarioController.alterar}" 
+                                 update="form" 
+                                 icon="ui-icon-disk" 
+                                 rendered="#{funcionarioController.obj.id>0}" 
+                                 value="Alterar"/>
+
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />   
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

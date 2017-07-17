@@ -1,0 +1,70 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="corpo">
+            <h:form id="form">
+                <h2>Cadastro de Produtos</h2>
+                <!-- Panel Grid 1    -->
+                <h:panelGrid columns="2" style="margin-bottom:20px;">
+                    <p:button  value="Cadastrar" icon="ui-icon-plusthick" disabled="true"/>
+                    <p:button value="Listar" icon="ui-icon-calculator" outcome="/produto/list.xhtml"/>
+                </h:panelGrid>    
+                
+                <p:panel header="Informações do Produto" style="margin-bottom:20px">  
+                    
+                    <h:panelGrid columns="4">
+
+                        <p:outputLabel value="Codigo*"/>
+                        <h:inputText id="codigo" value="#{produtoController.obj.codigo}" size="10" maxlength="5"/>
+
+                        <p:outputLabel value="Descrição*"/>
+                        <h:inputText value="#{produtoController.obj.descricao}" size="47"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="8">
+                        <p:outputLabel value="Unidade"/>
+                        <h:inputText value="#{produtoController.obj.unidade}" size="11"/>
+
+                        <p:outputLabel value="Quantidade"/>
+                        <h:inputText value="#{produtoController.obj.quantidade}" size="5" maxlength="5"/>
+                        
+                        <p:outputLabel value="Estoque Min"/>
+                        <h:inputText value="#{produtoController.obj.estoqueMinimo}" size="5" maxlength="5"/>
+
+                        <p:outputLabel value="Estoque Max"/>
+                        <h:inputText value="#{produtoController.obj.estoqueMaximo}" size="5" maxlength="8"/>
+
+                    </h:panelGrid>
+                    <h:panelGrid columns="6">
+                        
+                        <h:outputLabel value="Valor R$*"/>
+                        <h:inputText value="#{produtoController.obj.valor}" size="6" maxlength="10"/>
+                        
+                        <p:outputLabel  value="Fornecedor " />
+                        <h:selectOneMenu id="lista"  value="#{produtoController.obj.fornecedor.nome}" style="width:200px;" >
+                            <f:selectItem itemLabel="-- Selecione --" itemValue="" />
+                            <f:selectItems value="#{produtoController.listaFornecedores}" 
+                                           var ="x" itemLabel="#{x.nome}" itemValue="#{x.nome}" />
+                        </h:selectOneMenu>
+                        <p:outputLabel value="Localização"/>
+                        <h:inputText value="#{produtoController.obj.localizacao}" size="17"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Observação" />
+                        <h:inputTextarea cols="68" rows="3" value="#{produtoController.obj.observacoes}"/>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:commandButton action="#{produtoController.cadastrar}" update="form" icon="ui-icon-disk"  rendered="#{produtoController.obj.id==0}"
+                                 value="Cadastrar"/>
+
+                <p:commandButton action="#{produtoController.alterar}" update="form" icon="ui-icon-disk" rendered="#{produtoController.obj.id>0}" value="Atualizar Informações"/>
+
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />     
+            </h:form>
+        </ui:define>
+     </ui:composition>
+</html>
